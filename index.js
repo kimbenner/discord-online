@@ -22,7 +22,7 @@ async function activity() {
         largeImageKey: 'https://i.makeagif.com/media/4-26-2023/LsXhby.gif',
         largeImageText: 'large',
         instance: 'false',
-        startTimestamp: DataTransfer.now(),
+        startTimestamp: Date.now(),
         buttons: [
             {
                 label: '버튼1',
@@ -44,6 +44,9 @@ RPC.on('ready', async () => {
         activity();
     }, 100000000)
 })
+
+RPC.login({ clientId: ID})
+
 
 
 
