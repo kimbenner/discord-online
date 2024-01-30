@@ -39,6 +39,10 @@ async function activity() {
 RPC.on('ready', async () => {
     console.log('RPC on');
     activity();
+
+    setInterval(() => {
+        activity();
+    }, 100000000)
 })
 
 
