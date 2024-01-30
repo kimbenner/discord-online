@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "eris": "^0.17.2"
+    "eris": "^0.17.2",
+    "discord-rpc": "^4.0.1"
   }
 }
