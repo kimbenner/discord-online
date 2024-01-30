@@ -6,46 +6,44 @@ const bot = new Eris(process.env.token);
 
 
 
+const rpc = require("discord-rpc");
+const client = new rpc.Client({ transport: 'ipc' });
+const config = require('./config.json');
 
-const ID = '1201124413421146202'
-const DiscordRPC = require('discord-rpc');
-const RPC = new DiscordRPC.Client({ transport: 'ipc' });
+client.login({ clientId: config.ClientID }).catch(console.error);
 
-DiscordRPC.register(ID)
-
-async function activity() {
-    if (!RPC) return; 
-
-    RPC.setActivity({
-        details: 'test',
-        state: 'stat',
-        largeImageKey: 'https://i.makeagif.com/media/4-26-2023/LsXhby.gif',
-        largeImageText: 'large',
-        instance: 'false',
-        startTimestamp: Date.now(),
-        buttons: [
-            {
-                label: '버튼1',
-                url: 'https://youtube.com/'
+client.on('ready', () => {
+    console.log('[DEBUG] Presence now active!')
+    console.log('[WARN] Do not close this Console as it will terminate the rpc')
+    console.log('=================== Error Output ===================')
+    client.request('SET_ACTIVITY', {
+        pid: process.pid,
+        activity: {
+            details: config.Details,
+            state: config.State,
+            timestamps: {
+                start: Date.now()
             },
-            {
-                label: '버튼2',
-                url: 'https://youtube.com/'
-            }
-        ]
+            assets: {
+                large_image: config.LargeImage,
+                large_text: config.LargeImageText,
+                small_image: config.SmallImage,
+                small_text: config.SmallImageText,
+            },
+            buttons: [{
+                    label: config.Button1,
+                    url: config.Url1
+                },
+                {
+                    label: config.Button2,
+                    url: config.Url2
+                },
+                //labels are the buttons that you wanna provide to your rich presence and urls are the links that leads you when someone press that button
+                //Note the button won't work for you but don't worry it work for others
+            ]
+        }
     })
-}
-
-RPC.on('ready', async () => {
-    console.log('RPC on');
-    activity();
-
-    setInterval(() => {
-        activity();
-    }, 100000000)
 })
-
-RPC.login({ clientId: ID})
 
 
 
